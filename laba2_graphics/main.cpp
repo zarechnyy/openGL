@@ -207,5 +207,6 @@ int main(int argc, char *argv[]) {
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
+    glEnable(GL_DEPTH_TEST);
     glutMainLoop();
 }
