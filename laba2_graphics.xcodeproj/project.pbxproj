@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E633BFE237A071F009D44BE /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E633BFC237A071F009D44BE /* Drawable.cpp */; };
+		2E633C02237A07A1009D44BE /* DrawableFacade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E633C00237A07A1009D44BE /* DrawableFacade.cpp */; };
 		2EA3BDE723241CF400E7CD0C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA3BDE623241CF400E7CD0C /* main.cpp */; };
+		2EA3BDEF23241D7C00E7CD0C /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EA3BDEE23241D7C00E7CD0C /* GLUT.framework */; };
+		2EA3BDF123241D8500E7CD0C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EA3BDF023241D8500E7CD0C /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +27,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E633BFC237A071F009D44BE /* Drawable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Drawable.cpp; sourceTree = "<group>"; };
+		2E633BFD237A071F009D44BE /* Drawable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Drawable.hpp; sourceTree = "<group>"; };
+		2E633C00237A07A1009D44BE /* DrawableFacade.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DrawableFacade.cpp; sourceTree = "<group>"; };
+		2E633C01237A07A1009D44BE /* DrawableFacade.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawableFacade.hpp; sourceTree = "<group>"; };
 		2EA3BDE323241CF400E7CD0C /* laba2_graphics */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = laba2_graphics; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EA3BDE623241CF400E7CD0C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2EA3BDEE23241D7C00E7CD0C /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		2EA3BDF023241D8500E7CD0C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,17 +42,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EA3BDF123241D8500E7CD0C /* OpenGL.framework in Frameworks */,
+				2EA3BDEF23241D7C00E7CD0C /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E633BFF237A0766009D44BE /* Drawable */ = {
+			isa = PBXGroup;
+			children = (
+				2E633BFC237A071F009D44BE /* Drawable.cpp */,
+				2E633BFD237A071F009D44BE /* Drawable.hpp */,
+			);
+			path = Drawable;
+			sourceTree = "<group>";
+		};
+		2E633C03237A07A8009D44BE /* DrawableFacade */ = {
+			isa = PBXGroup;
+			children = (
+				2E633C00237A07A1009D44BE /* DrawableFacade.cpp */,
+				2E633C01237A07A1009D44BE /* DrawableFacade.hpp */,
+			);
+			path = DrawableFacade;
+			sourceTree = "<group>";
+		};
 		2EA3BDDA23241CF400E7CD0C = {
 			isa = PBXGroup;
 			children = (
 				2EA3BDE523241CF400E7CD0C /* laba2_graphics */,
 				2EA3BDE423241CF400E7CD0C /* Products */,
+				2EA3BDED23241D7C00E7CD0C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,8 +89,19 @@
 			isa = PBXGroup;
 			children = (
 				2EA3BDE623241CF400E7CD0C /* main.cpp */,
+				2E633C03237A07A8009D44BE /* DrawableFacade */,
+				2E633BFF237A0766009D44BE /* Drawable */,
 			);
 			path = laba2_graphics;
+			sourceTree = "<group>";
+		};
+		2EA3BDED23241D7C00E7CD0C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2EA3BDF023241D8500E7CD0C /* OpenGL.framework */,
+				2EA3BDEE23241D7C00E7CD0C /* GLUT.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +161,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EA3BDE723241CF400E7CD0C /* main.cpp in Sources */,
+				2E633C02237A07A1009D44BE /* DrawableFacade.cpp in Sources */,
+				2E633BFE237A071F009D44BE /* Drawable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
