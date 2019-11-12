@@ -14,6 +14,7 @@
 #else
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include "DrawableFacade/DrawableFacade.cpp"
 #endif
 
 #define PI 3.14159265
@@ -28,16 +29,15 @@ double angleH = 45.0, angleV = 45.0;
 double scaleCoef = 1;
 double change_x, change_y, change_z = 0.;
 double rotate_x, rotate_y, rotate_z = 0.;
+double lightSpeed = 0.1, lightCoord = 0.0;
 
 void ChangeCamera()
 {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    GLfloat light_position[] = {0.0, 0.0, 0.0, 1.0};
     cx = cos(angleV * PI / 180.0) * cos(angleH * PI / 180.0);
     cz = cos(angleV * PI / 180.0) * sin(angleH * PI / 180.0);
     cy = sin(angleV * PI / 180.0);
-    glLightfv(GL_LIGHT0,GL_POSITION,light_position);
     gluLookAt(cx, cy, cz, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
@@ -45,13 +45,13 @@ void light() {
         GLfloat light_ambient[] = {1, 0, 0, 1.0};
         GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
         GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0};
-        GLfloat light_position[] = {0.0, 0.0, 1.0, 0.0};
+        GLfloat lightPosition[] = {(float) cos(lightCoord) * 100, (float) sin(lightCoord) * 100, 0.0, 0.0};
 
         /* устанавливаем параметры источника света */
         glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);   //Інтенсивність фонового світла
         glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);   //Інтенсивність дифузного світла
         glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular); //Інтенсивність дзеркального світла
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position); //Положення джерела світла (x, y, z, w)
+        glLightfv(GL_LIGHT0, GL_POSITION, lightPosition); //Положення джерела світла (x, y, z, w)
         /* включаем z-буфер */
         glEnable(GL_DEPTH_TEST);
         /* включаем освещение и источник2 света */
@@ -60,6 +60,7 @@ void light() {
         glEnable(GL_LIGHT0);
         //glEnable(GL_COLOR_MATERIAL);
         glEnable(GL_NORMALIZE);
+        lightCoord += lightSpeed;
 }
 
 void scale() {
@@ -69,7 +70,6 @@ void scale() {
         0, 0, scaleCoef, 0,
         0, 0, 0, 1};
     glMultMatrixd(scale_matrix);
-    light();
 }
 
 void rotate() {
@@ -93,7 +93,6 @@ void rotate() {
             0, 0, 1, 0,
             0, 0, 0, 1};
     glMultMatrixd(rotation_matrix_Z);
-    light();
 }
 
 void translate() {
@@ -104,7 +103,6 @@ void translate() {
         static_cast<GLdouble>(change_x),
         static_cast<GLdouble>(change_y), static_cast<GLdouble>(change_z), 1};
     glMultMatrixd(translation_matrix_T);
-    light();
 }
 
 void display(void) {
@@ -115,6 +113,7 @@ void display(void) {
     scale();
     translate();
     rotate();
+    light();
     
     DrawableFacade facade;
     facade.drawTorus();
