@@ -23,80 +23,80 @@
 
 float varray[300][3];
 float x = 0.5f, y = 0.5f, z;
-static double cx = 0., cy = 0., cz = 0., value = 0;
+static double cx = 0., cy = 0., cz = 0.;
+double angleH = 45.0, angleV = 45.0;
+double scaleCoef = 1;
+double change_x, change_y, change_z = 0.;
+double rotate_x, rotate_y, rotate_z = 0.;
 
-
-void ChangeCamera() {
+void ChangeCamera()
+{
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    
-    cx = sin(value);
-    cz = cos(value);
-    std::cout << cx << " " << cz << std::endl;
-    gluLookAt(cx, cy, cz, 0, 0, 0., 0., 1., 0.);
+    GLfloat light_position[] = {0.0, 0.0, 0.0, 1.0};
+    cx = cos(angleV * PI / 180.0) * cos(angleH * PI / 180.0);
+    cz = cos(angleV * PI / 180.0) * sin(angleH * PI / 180.0);
+    cy = sin(angleV * PI / 180.0);
+    glLightfv(GL_LIGHT0,GL_POSITION,light_position);
+    gluLookAt(cx, cy, cz, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 void light() {
-//        GLfloat light_ambient[] = {1, 0, 0, 1.0};
-//        GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
-//        GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0};
-//        GLfloat light_position[] = {0.0, 0.0, 1.0, 0.0};
-//
-//        /* устанавливаем параметры источника света */
-//        glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);   //Інтенсивність фонового світла
-//        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);   //Інтенсивність дифузного світла
-//        glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular); //Інтенсивність дзеркального світла
-//        glLightfv(GL_LIGHT0, GL_POSITION, light_position); //Положення джерела світла (x, y, z, w)
-//        /* включаем z-буфер */
-//        glEnable(GL_DEPTH_TEST);
-//        /* включаем освещение и источник2 света */
-//        glEnable(GL_ALPHA_TEST);
-//        glEnable(GL_LIGHTING);
-//        glEnable(GL_LIGHT0);
-//        //glEnable(GL_COLOR_MATERIAL);
-//        glEnable(GL_NORMALIZE);
+        GLfloat light_ambient[] = {1, 0, 0, 1.0};
+        GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
+        GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0};
+        GLfloat light_position[] = {0.0, 0.0, 1.0, 0.0};
+
+        /* устанавливаем параметры источника света */
+        glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);   //Інтенсивність фонового світла
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);   //Інтенсивність дифузного світла
+        glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular); //Інтенсивність дзеркального світла
+        glLightfv(GL_LIGHT0, GL_POSITION, light_position); //Положення джерела світла (x, y, z, w)
+        /* включаем z-буфер */
+        glEnable(GL_DEPTH_TEST);
+        /* включаем освещение и источник2 света */
+        glEnable(GL_ALPHA_TEST);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        //glEnable(GL_COLOR_MATERIAL);
+        glEnable(GL_NORMALIZE);
 }
 
-void scale(double coef) {
+void scale() {
     GLdouble scale_matrix[] = {
-        coef, 0, 0, 0,
-        0, coef, 0, 0,
-        0, 0, coef, 0,
+        scaleCoef, 0, 0, 0,
+        0, scaleCoef, 0, 0,
+        0, 0, scaleCoef, 0,
         0, 0, 0, 1};
     glMultMatrixd(scale_matrix);
     light();
 }
 
-void rotate(double angle, bool around_x, bool around_y, bool around_z) {
-    angle = angle * PI / 180.0;
-    if (around_x) {
-        GLdouble rotation_matrix_T[] = {
+void rotate() {
+    GLdouble rotation_matrix_X[] = {
             1, 0, 0, 0,
-            0, cos(angle), sin(angle), 0,
-            0, -sin(angle), cos(angle), 0,
+            0, cos(rotate_x), sin(rotate_x), 0,
+            0, -sin(rotate_x), cos(rotate_x), 0,
             0, 0, 0, 1};
-        glMultMatrixd(rotation_matrix_T);
-    }
-    if (around_y) {
-        GLdouble rotation_matrix_T[] = {
-            cos(angle), 0, -sin(angle), 0,
+    glMultMatrixd(rotation_matrix_X);
+
+    GLdouble rotation_matrix_Y[] = {
+            cos(rotate_y), 0, -sin(rotate_y), 0,
             0, 1, 0, 0,
-            sin(angle), 0, cos(angle), 0,
+            sin(rotate_y), 0, cos(rotate_y), 0,
             0, 0, 0, 1};
-        glMultMatrixd(rotation_matrix_T);
-    }
-    if (around_z) {
-        GLdouble rotation_matrix_T[] = {
-            cos(angle), sin(angle), 0, 0,
-            -sin(angle), cos(angle), 0, 0,
+    glMultMatrixd(rotation_matrix_Y);
+
+    GLdouble rotation_matrix_Z[] = {
+            cos(rotate_z), sin(rotate_z), 0, 0,
+            -sin(rotate_z), cos(rotate_z), 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1};
-        glMultMatrixd(rotation_matrix_T);
-    }
+    glMultMatrixd(rotation_matrix_Z);
     light();
 }
 
-void translate(int change_x, int change_y, int change_z) {
+void translate() {
     GLdouble translation_matrix_T[] = {
         1, 0, 0, 0,
         0, 1, 0, 0,
@@ -107,16 +107,14 @@ void translate(int change_x, int change_y, int change_z) {
     light();
 }
 
-
 void display(void) {
     
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
-    
-//    gluLookAt(cx, cy, cz, 0, 0, 0, 0, -1, 0);
+    ChangeCamera();
+    scale();
+    translate();
+    rotate();
     
     DrawableFacade facade;
     facade.drawTorus();
@@ -127,7 +125,6 @@ void display(void) {
     
     glutSwapBuffers();
     glFinish();
-    
 
     facade.drawGraph();
 }
@@ -144,60 +141,71 @@ void keyboard(unsigned char key, int x, int y) {
     
     switch (key) {
         case ESCAPE:
-            scale(0.5);
+            break;
         case '8':
-            rotate(-5, 1, 0, 0);
-            break;
-        case '2':
-            rotate(5, 1, 0, 0);
-            break;
-        case '4':
-            rotate(-5, 0, 1, 0);
-            break;
-        case '6':
-            rotate(5, 0, 1, 0);
-            break;
-        case '3':
-            rotate(-5, 0, 0, 1);
-            break;
-        case '0':
-            translate(0, -1, 0);
-            break;
-        case '1':
-            translate(0, 1, 0);
+            rotate_z += 1;
             break;
         case '7':
-            translate(-1, 0, 0);
+            rotate_x += 1;
             break;
         case '9':
-            translate(1, 0, 0);
+            rotate_z += 1;
+            break;
+        case '0':
+            change_x -= 2;
+            break;
+        case '1':
+            change_x += 2;
+            break;
+        case '2':
+            change_y -= 2;
+            break;
+        case '3':
+            change_y += 2;
+            break;
+        case '6':
+            scaleCoef -= 0.5;
             break;
         case '5':
-            scale(1.5);
+            scaleCoef += 0.5;
             break;
-        case 'a':
-            value += 0.1;
-            ChangeCamera();
-            break;
-        case 's':
-            value -= 0.1;
-            ChangeCamera();
-            break;
-//        case 'd':
-//            cx += 5.; break;
-//        case 'f':
-//            cx -= 5.; break;
-//        case 'g':
-//            cz += 5.; break;
-//        case 'h':
-//            cz -= 5.; break;
-//        case 'q':
-//            cx -= 5.; cy -= 5.; cz -= 5.; break;
-//        case 'w':
-//            cx += 5.; cy += 5.; cz += 5.; break;
         }
     glClear(GL_COLOR_BUFFER_BIT);
     glutPostRedisplay();
+}
+
+void specialKey(int key, int x, int y) {
+    
+    if (key == GLUT_KEY_RIGHT)
+    {
+        angleH += 5.0f;
+    }
+    if (key == GLUT_KEY_LEFT)
+    {
+        angleH -= 5.0f;
+    }
+    if (key == GLUT_KEY_UP)
+    {
+        if (angleV < 90.0)
+            angleV += 5.0f;
+    }
+    if (key == GLUT_KEY_DOWN)
+    {
+        if (angleV > -90.0)
+            angleV -= 5.0f;
+    }
+    
+    glutPostRedisplay();
+}
+
+void update (int value){
+    
+    angleH += value;
+    if (angleH> 360) {
+        angleH -=360;
+    }
+    glutPostRedisplay();
+    glutTimerFunc(40, update, 2);
 }
 
 int main(int argc, char *argv[]) {
@@ -207,6 +215,8 @@ int main(int argc, char *argv[]) {
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
+    glutSpecialFunc(specialKey);
+    glutTimerFunc(40, update, 2);
     glEnable(GL_DEPTH_TEST);
     glutMainLoop();
 }
